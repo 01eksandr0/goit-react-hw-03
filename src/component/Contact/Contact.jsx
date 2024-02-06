@@ -16,7 +16,7 @@ export const Contact = ({ contact: { name, number, id }, deleteContact }) => {
           {number}
         </li>
       </ul>
-      <button type="button" onClick={deleteContact}>
+      <button type="button" id={id} onClick={deleteContact}>
         Delete
       </button>
     </div>

@@ -16,25 +16,22 @@ export const App = () => {
     ];
     return data;
   });
-  const [filterArr, setFilterArr] = useState([...contacts]);
   const [inputValue, setInputValue] = useState("");
   // =================================================
   const changeInput = (e) => setInputValue(`${e.target.value.trim()}`);
   useEffect(() => {
-    setFilterArr(
-      contacts.filter((item) =>
-        item.name.toLowerCase().includes(inputValue.toLowerCase())
-      )
-    );
     localStorage.setItem(KEY, JSON.stringify(contacts));
   }, [inputValue, contacts]);
-
+  const filterContacts = () =>
+    contacts.filter((item) =>
+      item.name.toLowerCase().includes(inputValue.toLowerCase())
+    );
   const handleSubmit = (values, actions) => {
     setContacts([...contacts, { ...values, id: nanoid() }]);
     actions.resetForm();
   };
   const deleteContact = (e) => {
-    setContacts(contacts.filter((item) => item.id !== e.target.parentNode.id));
+    setContacts(contacts.filter((item) => item.id !== e.target.id));
   };
 
   return (
@@ -42,7 +39,7 @@ export const App = () => {
       <h1 style={{ margin: 20 }}>Phonebook</h1>
       <ContactForm handleSubmit={handleSubmit} />
       <SearchBox changeInput={changeInput} value={inputValue} />
-      <ContactList contacts={filterArr} deleteContact={deleteContact} />
+      <ContactList contacts={filterContacts()} deleteContact={deleteContact} />
     </>
   );
 };
